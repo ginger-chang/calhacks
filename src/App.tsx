@@ -1,53 +1,53 @@
-import "./App.css";
+import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "../convex/_generated/api";
+import { faker } from "@faker-js/faker";
 
-import { Tabs, Text } from "@rewind-ui/core";
-import { AddSource } from "./AddSource";
-import { EnvCheck } from "./EnvCheck";
-import { Sources } from "./Sources";
-import { Search } from "./Search";
-import { Compare } from "./Compare";
-import { useComparison } from "./useComparison";
-import { Prompt } from "./Prompt";
-import { useRef } from "react";
+// For demo purposes. In a real app, you'd have real user data.
+const NAME = faker.person.firstName();
 
-function App() {
-  const compareRef = useRef<HTMLButtonElement>(null);
-  console.log(compareRef);
-  const [target, compare] = useComparison(compareRef);
+export default function App() {
+  const messages = useQuery(api.messages.list);
+  const sendMessage = useMutation(api.messages.send);
+  const [newMessageText, setNewMessageText] = useState("");
+
+  useEffect(() => {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+  }, [messages]);
+
   return (
-    <EnvCheck>
-      <Tabs defaultTab="sources">
-        <Tabs.List>
-          <Tabs.Tab anchor="sources">Sources</Tabs.Tab>
-          <Tabs.Tab anchor="search">Search</Tabs.Tab>
-          <Tabs.Tab ref={compareRef} anchor="compare">
-            Compare
-          </Tabs.Tab>
-          <Tabs.Tab id="prompt" anchor="prompt">
-            Prompt
-          </Tabs.Tab>
-        </Tabs.List>
-        <Tabs.Content anchor="search">
-          <Search compare={compare} />
-        </Tabs.Content>
-        <Tabs.Content anchor="prompt">
-          <Prompt />
-        </Tabs.Content>
-        <Tabs.Content anchor="compare">
-          <Compare target={target} compare={compare} />
-        </Tabs.Content>
-        <Tabs.Content anchor="sources">
-          <Text size="lg">Add a source</Text>
-          <p>
-            This is the data you will be able to search over and compare
-            semantically.
-          </p>
-          <AddSource />
-          <Sources />
-        </Tabs.Content>
-      </Tabs>
-    </EnvCheck>
+    <main className="chat">
+      <header>
+        <h1>Acme Chat</h1>
+        <p>
+          Connected as <strong>{NAME}</strong>
+        </p>
+      </header>
+      {messages?.map((message) => (
+        <article
+          key={message._id}
+          className={message.author === NAME ? "message-mine" : ""}
+        >
+          <div>{message.author}</div>
+          <p>{message.body}</p>
+        </article>
+      ))}
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          await sendMessage({ body: newMessageText, author: NAME });
+          setNewMessageText("");
+        }}
+      >
+        <input
+          value={newMessageText}
+          onChange={(e) => setNewMessageText(e.target.value)}
+          placeholder="Write a message…"
+        />
+        <button type="submit" disabled={!newMessageText}>
+          Send
+        </button>
+      </form>
+    </main>
   );
 }
-
-export default App;
