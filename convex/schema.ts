@@ -6,4 +6,9 @@ export default defineSchema({
     author: v.string(),
     body: v.string(),
   }),
+  input01: defineTable({
+    dietaryRestriction: v.string(),
+    calories: v.int64(),
+    price: v.int64(),
+  })
 });

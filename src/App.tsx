@@ -14,10 +14,12 @@ const NAME = faker.person.firstName();
 export default function App() {
   const messages = useQuery(api.messages.list);
   const sendMessage = useMutation(api.messages.send);
+  const sendUserInput = useMutation(api.messages.sendUserInput);
   const [newMessageText, setNewMessageText] = useState("");
 
   const [newIdea, setNewIdea] = useState("")
   const [newCalories, setNewCalories] = useState("")
+  const [newPrice, setNewPrice] = useState("")
   const [includeRandom, setIncludeRandom] = useState(true)
 
   // const ideas = useQuery(api.myFunctions.listIdeas)
@@ -31,8 +33,6 @@ export default function App() {
   return (
     // chat
     <main className="container max-w-2xl flex flex-col gap-8">
-
-
         <div className="flex gap-2">
           <Input
             type="text"
@@ -46,6 +46,12 @@ export default function App() {
             onChange={(event) => setNewCalories(event.target.value)}
             placeholder="What's your calories goal?"
           />
+          <Input
+            type="number"
+            value={newPrice}
+            onChange={(event) => setNewPrice(event.target.value)}
+            placeholder="What's the maximum you'd spend (for a week's meals)?"
+          />
           <Button
             disabled={!newIdea}
             title={
@@ -55,8 +61,11 @@ export default function App() {
             }
             onClick={async () => {
               //await saveIdea({ idea: newIdea.trim(), random: false })
+              await sendUserInput({dietaryRestriction: newIdea, calories: newCalories, price: newPrice});
               setNewIdea("")
               setNewCalories("")
+              setNewPrice("")
+              
             }}
             className="min-w-fit"
           >
