@@ -2,7 +2,7 @@ import { api } from "./_generated/api";
 import { internalMutation } from "./_generated/server";
 
 const seedMessages = [
-  // ["Ian", "Hey, glad you're here.", 0],
+     ["Ian", "Hey, glad you're here.", 0],
   // ["Abhi", "What's up?", 1000],
   // ["Ian", "I'm hoping to show how reactive Convex is.", 1500],
   // ["Abhi", "Could you show streaming a ChatGPT response?", 1700],
