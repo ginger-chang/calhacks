@@ -10,10 +10,17 @@
   },
   "dependencies": {
     "@faker-js/faker": "^8.0.2",
+    "@radix-ui/primitive": "^1.0.1",
+    "@radix-ui/react-slot": "^1.0.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
     "convex": "^1.5.1",
+    "lucide-react": "^0.290.0",
     "openai": "^4.14.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "tailwind-merge": "^1.14.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/babel__core": "^7.20.0",
