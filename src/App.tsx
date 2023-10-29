@@ -8,13 +8,14 @@ import { Checkbox } from "../src/components/ui/checkbox"
 import { Label } from "../src/components/ui/label"
 
 
+
 // For demo purposes. In a real app, you'd have real user data.
 const NAME = faker.person.firstName();
 
 export default function App() {
   const messages = useQuery(api.messages.list);
   const sendMessage = useMutation(api.messages.send);
-  const sendUserInput = useMutation(api.input01.sendUserInput);
+  const sendUserInput = useMutation(api.input01.sendUserInput01);
   const [newMessageText, setNewMessageText] = useState("");
 
   const [newIdea, setNewIdea] = useState("")
@@ -60,7 +61,6 @@ export default function App() {
                 : "You must enter an idea first"
             }
             onClick={async () => {
-              //await saveIdea({ idea: newIdea.trim(), random: false })
               await sendUserInput({dietaryRestriction: newIdea, calories: newCalories, price: newPrice});
               setNewIdea("")
               setNewCalories("")
