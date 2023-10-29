@@ -124,7 +124,7 @@ export default function App() {
             }}
             className="min-w-fit"
           >
-            Generate Week Menu
+            Generate Daily Menu
           </Button>
 
 
