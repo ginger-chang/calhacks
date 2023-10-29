@@ -12,6 +12,9 @@ export default defineSchema({
     price: v.string(),
   }),
   output01: defineTable({
-    output: v.string(),
+    name: v.string(),
+    calories: v.string(),
+    price: v.string(),
+    description: v.string(),
   }),
 });

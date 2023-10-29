@@ -16,7 +16,7 @@ export const sendUserInput01 = mutation({
       await ctx.db.insert("input01", {dietaryRestriction, calories, price});
       const message = "What I don't eat: " + dietaryRestriction + ", and my budget is "
        + price + ", please give me a suggestion of a meal that is under " + calories + 
-       " calories in the format of Name | Calories | Price."
+       " calories in the format of Name | Calories | Price | Description."
        console.log("before running chat in input01.ts");
       // await chat({message});
       ctx.scheduler.runAfter(0, internal.openai.chat, { message });
