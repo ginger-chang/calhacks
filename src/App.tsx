@@ -65,7 +65,7 @@ export default function App() {
               setNewIdea("")
               setNewCalories("")
               setNewPrice("")
-              
+              console.log("set ideas, calories, price");
             }}
             className="min-w-fit"
           >

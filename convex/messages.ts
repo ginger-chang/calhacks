@@ -33,7 +33,7 @@ export const send = mutation({
         body: "...",
       });
       // Schedule an action that calls ChatGPT and updates the message.
-      ctx.scheduler.runAfter(0, internal.openai.chat, { messages, messageId });
+      // ctx.scheduler.runAfter(0, internal.openai.chat, { messages, messageId });
     }
   },
 });
