@@ -6,7 +6,31 @@ import { Doc, Id } from "./_generated/dataModel";
 import { v } from "convex/values";
 import { api } from "../convex/_generated/api";
 
+
+import { internalAction, action } from "./_generated/server";
+
 // const chat = useAction(api.openai.chat);
+//const clearMenu = useMutation(api.output01.clearMenu);
+
+
+export const sendWeeklyInput = mutation({
+    
+  args: { dietaryRestriction: v.string(), calories: v.string(), price: v.string() },
+  handler: async (ctx, {dietaryRestriction, calories, price}) => {
+    console.log("in send weekly linput");
+   for(var i = 0; i < 3; i ++) {
+    await ctx.db.insert("input01", {dietaryRestriction, calories, price});
+    const message = "What I don't eat: " + dietaryRestriction + ", and my budget is "
+     + price + ", please give me a suggestion of a meal that is under " + calories + 
+     " calories in the format of Name | Calories | Price | Description."
+     console.log("before meal #" + i);
+    // await chat({message});
+    ctx.scheduler.runAfter(0, internal.openai.chat, { message });
+    console.log("after meal #" + i);
+    //return response;
+   }
+  },
+});
 
 export const sendUserInput01 = mutation({
     
@@ -24,8 +48,6 @@ export const sendUserInput01 = mutation({
       //return response;
 
 // Name | Calories | Price 
-
-
       /*
       if (body.indexOf("@gpt") !== -1) {
       // Fetch the latest n messages to send as context.

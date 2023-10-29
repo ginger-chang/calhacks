@@ -6,6 +6,7 @@ import { Button } from "../src/components/ui/button";
 import { Input } from "../src/components/ui/input"
 import { Checkbox } from "../src/components/ui/checkbox"
 import { Label } from "../src/components/ui/label"
+import { clear } from "console";
 
 
 
@@ -16,6 +17,8 @@ export default function App() {
   const messages = useQuery(api.messages.list);
   const sendMessage = useMutation(api.messages.send);
   const sendUserInput = useMutation(api.input01.sendUserInput01);
+  const sendWeeklyInput = useMutation(api.input01.sendWeeklyInput);
+  const clearMenu = useMutation(api.output01.clearMenu);
   const answer = useQuery(api.output01.list);
   const [newMessageText, setNewMessageText] = useState("");
   const [rememberMyPreferences, setRememberMyPreferences] = useState(false)
@@ -25,6 +28,8 @@ export default function App() {
   const [newCalories, setNewCalories] = useState("")
   const [newPrice, setNewPrice] = useState("")
   const [menuCreate, setMenuCreate] = useState(false);
+  var days = ["Monday", "Monday", "Monday", "Tuesday", "Tuesday", "Tuesday", "Wednesday", "Wednesday", "Wednesday", "Thursday", "Thursday", "Thursday", "Friday", "Friday", "Friday", "Saturday", "Saturday", "Saturday", "Sunday", "Sunday", "Sunday"]
+  var times = ["Breakfast", "Lunch", "Dinner", "Breakfast", "Lunch", "Dinner", "Breakfast", "Lunch", "Dinner", "Breakfast", "Lunch", "Dinner", "Breakfast", "Lunch", "Dinner", "Breakfast", "Lunch", "Dinner", "Breakfast", "Lunch", "Dinner"]
   //const [includeRandom, setIncludeRandom] = useState(true)
 
   // const ideas = useQuery(api.myFunctions.listIdeas)
@@ -97,6 +102,33 @@ export default function App() {
           >
             Save idea
           </Button>
+
+          <Button
+            disabled={!newIdea}
+            title={
+              newIdea
+                ? "Save your idea to the database"
+                : "You must enter an idea first"
+            }
+            onClick={async () => {
+              await clearMenu();
+              console.log("before send weekly input");
+              await sendWeeklyInput({dietaryRestriction: newIdea, calories: newCalories, price: newPrice});
+              if (!rememberMyPreferences) {
+                setNewIdea("")
+                setNewCalories("")
+                setNewPrice("")
+              }
+              console.log("set ideas, calories, price");
+              showMenu();
+            }}
+            className="min-w-fit"
+          >
+            Generate Week Menu
+          </Button>
+
+
+
           <Checkbox
               id="rememberMyPreferences"
               checked={rememberMyPreferences}
@@ -111,6 +143,8 @@ export default function App() {
       </ul>
       <table>
         <tr>
+          <th>Day</th>
+          <th>Meal</th>
           <th>Name</th>
           <th>Calories</th>
           <th>Price</th>
@@ -118,6 +152,8 @@ export default function App() {
         </tr>
         {answer?.map((document, i) => (
             <tr key={i}>
+              <td>{days[i]}</td>
+              <td>{times[i]}</td>
               <td>{document.name}</td>
               <td>{document.calories}</td>
               <td>{document.price}</td>
