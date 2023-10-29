@@ -8,7 +8,7 @@ export default defineSchema({
   }),
   input01: defineTable({
     dietaryRestriction: v.string(),
-    calories: v.int64(),
-    price: v.int64(),
+    calories: v.string(),
+    price: v.string(),
   })
 });
