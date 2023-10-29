@@ -9,10 +9,14 @@ export const recordOutput = mutation({
     args: { output: v.string() },
     handler: async (ctx, {output}) => {
     const lines = output.split("\n");
-    const name = lines[2].substring(6, lines[2].length);
-    const calories = lines[3].substring(10, lines[3].length);
-    const price = lines[4].substring(7, lines[4].length);
-    const description = lines[5].substring(13, lines[5].length);
+    var i = lines[2].indexOf("Name: ");
+    const name = lines[2].substring(6 + i, lines[2].length);
+    i = lines[3].indexOf("Calories: ");
+    const calories = lines[3].substring(10 + i, lines[3].length);
+    i = lines[4].indexOf("Price: ");
+    const price = lines[4].substring(7 + i, lines[4].length);
+    i = lines[5].indexOf("Description: ");
+    const description = lines[5].substring(13 + i, lines[5].length);
     await ctx.db.insert("output01", {name, calories, price, description});
 
     //   await ctx.db.insert("input01", {dietaryRestriction, calories, price});
@@ -28,9 +32,9 @@ export const recordOutput = mutation({
 export const list = query({
     handler: async (ctx): Promise<Doc<"output01">[]> => {
       // Grab the most recent messages.
-      const meals = await ctx.db.query("output01").order("desc").take(1);
+      const meals = await ctx.db.query("output01").order("desc").collect();
       // Reverse the list so that it's in chronological order.
-      return meals.reverse();
+      return meals;
     },
   });
 

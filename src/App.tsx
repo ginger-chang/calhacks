@@ -75,12 +75,7 @@ export default function App() {
             onChange={(event) => setNewPrice(event.target.value)}
             placeholder="What's the maximum you'd spend (for a week's meals)?"
           />
-          {/* <Checkbox
-              id="rememberMyPreferences"
-              checked={rememberMyPreferences}
-              onCheckedChange={() => setRememberMyPreferences(!rememberMyPreferences)}
-            />
-            <Label htmlFor="show-random">Remember My Preferences</Label> */}
+          
           <Button
             disabled={!newIdea}
             title={
@@ -90,11 +85,11 @@ export default function App() {
             }
             onClick={async () => {
               await sendUserInput({dietaryRestriction: newIdea, calories: newCalories, price: newPrice});
-              //if (!rememberMyPreferences) {
+              if (!rememberMyPreferences) {
                 setNewIdea("")
                 setNewCalories("")
                 setNewPrice("")
-              //}
+              }
               console.log("set ideas, calories, price");
               showMenu();
             }}
@@ -102,9 +97,35 @@ export default function App() {
           >
             Save idea
           </Button>
+          <Checkbox
+              id="rememberMyPreferences"
+              checked={rememberMyPreferences}
+              onCheckedChange={() => setRememberMyPreferences(!rememberMyPreferences)}
+            />
+            <Label htmlFor="show-random">Remember My Preferences</Label>
           <div>
             {true && <p>hiddne</p>}
           </div>
+          <ul>
+          
+      </ul>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Calories</th>
+          <th>Price</th>
+          <th>Description</th>
+        </tr>
+        {answer?.map((document, i) => (
+            <tr key={i}>
+              <td>{document.name}</td>
+              <td>{document.calories}</td>
+              <td>{document.price}</td>
+              <td>{document.description}</td>
+            </tr>
+            
+          ))}
+      </table>
         </div>
         
       {/* <header>
